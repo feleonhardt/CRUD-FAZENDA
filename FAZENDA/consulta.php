@@ -15,6 +15,7 @@ $gado_codigo = isset($_GET['gado_codigo']) ? $_GET['gado_codigo'] : '';
     <a href="index.php">< HOME</a><br><br>
     <form action="" method="get">
         Nome do Gado: <select name='gado_codigo'>
+        <option></option>
         <?php
         $sql = $pdo->query("SELECT * FROM gado;");
         while ($linha = $sql->fetch(PDO::FETCH_ASSOC)) {
@@ -54,23 +55,27 @@ $gado_codigo = isset($_GET['gado_codigo']) ? $_GET['gado_codigo'] : '';
             echo "<tr>";
                 echo "<td>";
                 $sql = "SELECT * FROM gado where codigo = :cod;";
-                $consulta = $pdo->prepare($sql);
-                $consulta->bindParam(':cod', $linha['gado_codigo']);
-                $consulta->execute();
-                while ($row = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $st = $pdo->prepare($sql);
+                $st->bindParam(':cod', $linha['gado_codigo']);
+                $st->execute();
+                while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
                     echo $row['nome'];
                 }
                 echo "</td>";
                 echo "<td>";
                 $sql = "SELECT * FROM veterinario where codigo = :cod;";
-                $consulta = $pdo->prepare($sql);
-                $consulta->bindParam(':cod', $linha['veterinario_codigo']);
-                $consulta->execute();
-                while ($row = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $mt = $pdo->prepare($sql);
+                $mt->bindParam(':cod', $linha['veterinario_codigo']);
+                $mt->execute();
+                while ($row = $mt->fetch(PDO::FETCH_ASSOC)) {
                     echo $row['nome'];
                 }
                 echo "</td>";
-                echo "<td>".$linha['ultima_consulta']."</td>";
+                echo "<td>";
+                $vet_data = explode('-',$linha['ultima_consulta']);
+                $data = $vet_data[2].'/'.$vet_data[1].'/'.$vet_data[0];
+                echo $data;
+                echo "</td>";
                 echo "<td>".$linha['tratamento']."</td>";
                 echo "<td>";
                     ?>

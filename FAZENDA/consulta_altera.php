@@ -26,6 +26,7 @@ $pdo = Conexao::getInstance();
             while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<form action='consulta_acao.php' method='get'>";
                     echo "<input type='hidden' name='gado_codigo' value='".$linha['gado_codigo']."'>";
+                    echo "<input type='hidden' name='vet' value='".$vet."'>";
                     echo "<input type='hidden' name='acao' value='alterar'>";
                     echo "Veterinário:";
                     echo "<select name='veterinario_codigo'>";
@@ -37,7 +38,7 @@ $pdo = Conexao::getInstance();
                         }
                         echo ">".$row['nome']."</option>";
                     }
-                    echo "</select>";
+                    echo "</select><br>";
                     echo "Ultima consulta: <input type='date' name='data' value='".$linha['ultima_consulta']."'><br>";
                     echo "Tratamento: <input type='text' name='tratamento' value='".$linha['tratamento']."'><br>";
                     echo "<input type='submit' value='ALTERAR'>";
